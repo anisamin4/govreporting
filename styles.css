@@ -1,0 +1,134 @@
+/**
+ * CSS styles for the Government Reporting plugin.
+ *
+ * @package     local_govreporting
+ * @copyright   2025 YourName <your.email@example.com>
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+ .local-govreporting-report .notifications {
+    margin-bottom: 20px;
+}
+
+.local-govreporting-report .student-list {
+    margin-top: 20px;
+}
+
+.local-govreporting-report .report-info {
+    margin-bottom: 15px;
+    color: #666;
+    font-style: italic;
+}
+
+.local-govreporting-report .pagination-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.local-govreporting-report .student-record {
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.local-govreporting-report .student-record-inner {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 15px;
+}
+
+.local-govreporting-report .student-details {
+    flex: 1;
+    min-width: 300px;
+}
+
+.local-govreporting-report .student-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 15px;
+}
+
+.local-govreporting-report .detail-row {
+    display: flex;
+    margin-bottom: 8px;
+}
+
+.local-govreporting-report .detail-label {
+    font-weight: bold;
+    min-width: 120px;
+    padding-right: 10px;
+}
+
+.local-govreporting-report .detail-value {
+    flex: 1;
+}
+
+/* Processing indicator for button */
+.local-govreporting-report .submit-student.processing {
+    position: relative;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.local-govreporting-report .submit-student.processing:after {
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 50%;
+    left: 50%;
+    margin-top: -8px;
+    margin-left: -8px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-top-color: #fff;
+    animation: spinner .6s linear infinite;
+}
+
+@keyframes spinner {
+    to {transform: rotate(360deg);}
+}
+
+/* Success animation */
+.student-record.success-submission {
+    animation: successPulse 1s ease-out;
+}
+
+@keyframes successPulse {
+    0% {background-color: rgba(40, 167, 69, 0.2);}
+    100% {background-color: transparent;}
+}
+
+/* Error animation */
+.student-record.error-submission {
+    animation: errorShake 0.5s ease-in-out;
+}
+
+@keyframes errorShake {
+    0%, 100% {transform: translateX(0);}
+    25% {transform: translateX(-5px);}
+    75% {transform: translateX(5px);}
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .local-govreporting-report .student-record-inner {
+        flex-direction: column;
+    }
+    
+    .local-govreporting-report .student-actions {
+        margin-top: 15px;
+        justify-content: flex-start;
+    }
+    
+    .local-govreporting-report .detail-row {
+        flex-direction: column;
+    }
+    
+    .local-govreporting-report .detail-label {
+        margin-bottom: 4px;
+    }
+}

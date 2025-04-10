@@ -1,0 +1,127 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_govreporting/report
+
+    Government Reporting plugin report page template.
+
+    Classes required for JS:
+    * none
+
+    Data attributes required for JS:
+    * data-userid
+
+    Context variables required for this template:
+    * title - The report title
+    * description - The report description
+    * has_students - Whether there are any eligible students
+    * no_students_message - Message to display when there are no eligible students
+    * has_pagination - Whether pagination is needed
+    * pagination - HTML for the pagination bar
+    * total_students - Total number of eligible students
+    * students - Array of student objects
+      * id - Student ID
+      * firstname - Student first name
+      * lastname - Student last name
+      * driver_license - Student driver license number
+      * date_of_birth - Student date of birth
+      * state - Student state
+      * training_completion - Training completion date
+      * theory_score - Average theory score
+      * course_list - Formatted list of courses with scores
+      * submit_button - Text for the submit button
+}}
+
+<div class="local-govreporting-report">
+    <h2>{{title}}</h2>
+    <p>{{description}}</p>
+    
+    <div id="gov-report-notifications" class="notifications">
+        <div id="gov-report-success" class="alert alert-success" role="alert" style="display: none;">
+            <span id="success-message"></span>
+        </div>
+        <div id="gov-report-error" class="alert alert-danger" role="alert" style="display: none;">
+            <span id="error-message"></span>
+        </div>
+    </div>
+
+    {{#has_pagination}}
+        <div class="report-info">
+            <p>{{#str}}showing_students, local_govreporting, {{total_students}}{{/str}}</p>
+        </div>
+    {{/has_pagination}}
+
+    {{#has_students}}
+        <div class="student-list">
+            {{#students}}
+                <div class="student-record" data-userid="{{id}}">
+                    <div class="student-record-inner">
+                        <div class="student-details">
+                            <div class="detail-row">
+                                <div class="detail-label">{{#str}}first_name, local_govreporting{{/str}}</div>
+                                <div class="detail-value">{{firstname}}</div>
+                            </div>
+                            <div class="detail-row">
+                                <div class="detail-label">{{#str}}last_name, local_govreporting{{/str}}</div>
+                                <div class="detail-value">{{lastname}}</div>
+                            </div>
+                            <div class="detail-row">
+                                <div class="detail-label">{{#str}}driver_license, local_govreporting{{/str}}</div>
+                                <div class="detail-value">{{driver_license}}</div>
+                            </div>
+                            <div class="detail-row">
+                                <div class="detail-label">{{#str}}date_of_birth, local_govreporting{{/str}}</div>
+                                <div class="detail-value">{{date_of_birth}}</div>
+                            </div>
+                            <div class="detail-row">
+                                <div class="detail-label">{{#str}}state, local_govreporting{{/str}}</div>
+                                <div class="detail-value">{{state}}</div>
+                            </div>
+                            <div class="detail-row">
+                                <div class="detail-label">{{#str}}training_completion, local_govreporting{{/str}}</div>
+                                <div class="detail-value">{{training_completion}}</div>
+                            </div>
+                            <div class="detail-row">
+                                <div class="detail-label">{{#str}}theory_score, local_govreporting{{/str}}</div>
+                                <div class="detail-value">{{theory_score}}</div>
+                            </div>
+                            <div class="detail-row">
+                                <div class="detail-label">{{#str}}courses, local_govreporting{{/str}}</div>
+                                <div class="detail-value">{{course_list}}</div>
+                            </div>
+                        </div>
+                        <div class="student-actions">
+                            <button class="btn btn-primary submit-student" data-userid="{{id}}">
+                                {{submit_button}}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            {{/students}}
+        </div>
+
+        {{#has_pagination}}
+            <div class="pagination-container">
+                {{{pagination}}}
+            </div>
+        {{/has_pagination}}
+    {{/has_students}}
+    
+    {{^has_students}}
+        <div class="alert alert-info">{{no_students_message}}</div>
+    {{/has_students}}
+</div>

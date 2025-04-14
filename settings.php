@@ -28,31 +28,20 @@ defined('MOODLE_INTERNAL') || die();
 // This is the main admin page for the plugin.
 if ($hassiteconfig) {
     $ADMIN->add('localplugins', new admin_category('local_govreporting_settings', get_string('pluginname', 'local_govreporting')));
+    
+    // Main report page
     $ADMIN->add('local_govreporting_settings', new admin_externalpage('local_govreporting_report', 
         get_string('reportpage', 'local_govreporting'),
         new moodle_url('/local/govreporting/report.php')));
     
+    // TPR certificate management page
+    $ADMIN->add('local_govreporting_settings', new admin_externalpage('local_govreporting_certificates', 
+        get_string('tpr_certificate_management', 'local_govreporting'),
+        new moodle_url('/local/govreporting/certificates.php')));
+    
     // Settings page
     $settings = new admin_settingpage('local_govreporting_config', get_string('settings', 'local_govreporting'));
     $ADMIN->add('local_govreporting_settings', $settings);
-    
-    // API endpoint setting
-    $settings->add(new admin_setting_configtext(
-        'local_govreporting/apiendpoint',
-        get_string('apiendpoint', 'local_govreporting'),
-        get_string('apiendpointdesc', 'local_govreporting'),
-        'https://api.government-example.org/students/submit',
-        PARAM_URL
-    ));
-    
-    // API key setting
-    $settings->add(new admin_setting_configtext(
-        'local_govreporting/apikey',
-        get_string('apikey', 'local_govreporting'),
-        get_string('apikeydesc', 'local_govreporting'),
-        '',
-        PARAM_TEXT
-    ));
     
     // Minimum score percentage
     $settings->add(new admin_setting_configtext(
@@ -70,5 +59,37 @@ if ($hassiteconfig) {
         get_string('perpagedesc', 'local_govreporting'),
         '10',
         PARAM_INT
+    ));
+    
+    // FMCSA TPR API Settings Section
+    $settings->add(new admin_setting_heading(
+        'local_govreporting/tpr_settings',
+        get_string('tpr_settings_heading', 'local_govreporting'),
+        get_string('tpr_settings_desc', 'local_govreporting')
+    ));
+    
+    // Test mode setting
+    $settings->add(new admin_setting_configcheckbox(
+        'local_govreporting/tpr_testmode',
+        get_string('tpr_testmode', 'local_govreporting'),
+        get_string('tpr_testmode_desc', 'local_govreporting'),
+        '1'
+    ));
+    
+    // Provider location ID
+    $settings->add(new admin_setting_configtext(
+        'local_govreporting/tpr_provider_location_id',
+        get_string('tpr_provider_location_id', 'local_govreporting'),
+        get_string('tpr_provider_location_id_desc', 'local_govreporting'),
+        '',
+        PARAM_TEXT
+    ));
+    
+    // Certificate notice
+    $certurl = new moodle_url('/local/govreporting/certificates.php');
+    $settings->add(new admin_setting_heading(
+        'local_govreporting/tpr_cert_notice',
+        get_string('tpr_certificate_notice', 'local_govreporting'),
+        get_string('tpr_certificate_notice_desc', 'local_govreporting', $certurl->out())
     ));
 }

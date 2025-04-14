@@ -32,7 +32,7 @@ use external_api;
 use external_function_parameters;
 use external_single_structure;
 use external_value;
-use local_govreporting\api_manager;
+use local_govreporting\tpr_api_manager;
 use local_govreporting\data_manager;
 
 /**
@@ -66,7 +66,7 @@ class submit_student extends external_api {
     }
 
     /**
-     * Submit student data to government database.
+     * Submit student data to government database via TPR API.
      *
      * @param int $userid The user ID to submit
      * @return array Response data
@@ -103,15 +103,15 @@ class submit_student extends external_api {
             ];
         }
         
-        // Submit to API.
-        $apimanager = new api_manager();
-        $result = $apimanager->submit_student_data($student);
+        // Submit to TPR API
+        $apimanager = new tpr_api_manager();
+        $result = $apimanager->submit_training_data($student);
         
-        // Record the submission.
+        // Record the submission
         $status = $result['success'] ? 'submitted' : 'failed';
         $datamanager->record_submission($userid, $status, json_encode($result));
         
-        // Return the result.
+        // Return the result
         return [
             'success' => $result['success'],
             'message' => $result['success'] ? 
